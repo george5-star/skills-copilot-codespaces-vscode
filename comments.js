@@ -1,31 +1,30 @@
-// Create a web server that can respond to requests for /comments.json
-// with a JSON file containing a list of comments. You’ll need to read
-// comments.json and convert it to a JavaScript object before responding
-// with it. Add an HTTP header of Access-Control-Allow-Origin: * to the
-// response.
+// Create web server application with express
+// Execute with node comments.js
+// Access in browser at http://localhost:3000
 
-var http = require("http");
-var fs = require("fs");
+var express = require('express');
+var app = express();
 
-var server = http.createServer(function(req, res) {
-  console.log("Request made for: " + req.url);
-  if (req.url === "/comments.json") {
-    fs.readFile("comments.json", function(err, data) {
-      if (err) {
-        console.error(err);
-        res.statusCode = 500;
-        res.end("Server error");
-        return;
-      }
-      res.setHeader("Content-Type", "application/json");
-      res.setHeader("Access-Control-Allow-Origin", "*");
-      res.end(data);
-    });
-  } else {
-    res.statusCode = 404;
-    res.end("Not found");
-  }
+app.get('/', function(req, res) {
+  res.send('Welcome to the comments page!');
 });
 
-server.listen(8080);
-console.log("Server listening on port 8080");
+app.get('/comments', function(req, res) {
+  res.send('Welcome to the comments page!');
+});
+
+app.get('/comments/new', function(req, res) {
+  res.send('This page is for making new comments!');
+});
+
+app.get('/comments/:id', function(req, res) {
+  res.send('This page is for viewing comment ' + req.params.id);
+});
+
+app.get('/comments/:id/edit', function(req, res) {
+  res.send('This page is for editing comment ' + req.params.id);
+});
+
+app.listen(3000, function() {
+  console.log('Listening on port 3000');
+});
